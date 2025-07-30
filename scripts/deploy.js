@@ -3,6 +3,14 @@ require("dotenv").config();
 
 async function main() {
   try {
+    // Check for required environment variables
+    if (!process.env.SEPOLIA_RPC_URL) {
+      throw new Error("Missing SEPOLIA_RPC_URL in .env file");
+    }
+    if (!process.env.PRIVATE_KEY) {
+      throw new Error("Missing PRIVATE_KEY in .env file");
+    }
+
     // Get the contract factory
     const SimpleVault = await ethers.getContractFactory("SimpleVault");
 
@@ -35,7 +43,7 @@ async function main() {
     }
 
   } catch (error) {
-    console.error("Deployment failed:", error);
+    console.error("Deployment failed:", error.message);
     process.exitCode = 1;
   }
 }
